@@ -1,8 +1,28 @@
 # KalkulatorHipoteczny
 
-Kalkulator Hipoteczny do obliczania kredu z ratami stałymi i malejącymi
+Aplikacja stworzona do obliczania kredytu hipotecznego
 
-Dane wejsciowe jakie wprowadzamy W klasie input są następujące: Moment rozpoczecia kredytu Wysokość oprocentowania wibor Kwota kredytu Rodzaj rat w jakich kredyt jest spłanacy(malejace i rosnące) Czas trwania kredytu Oprocentowanie kredytu narzucone przez bank Możliwość dodakowych nadpłat kredytu w wybranch miesiach w tym przypadku jest do wyboru w kredycie czy chcemy aby nasz kredyt został szybciej spłacony czy chcemy aby nasze przyszłe raty były pomniejszone już o spłaconą kwotę
+Warianty kredytów hipotecznych jakie możemy obliczać:
+
+Kredyt o stałych ratach, w tym przypadku cześć kapitałowa i odsetkowa daje nam stałą wartość
+
+Kredyt o stałych ratach kapitałowych w tym przypadku każda następna rata którą spłacamy jest mniejsza od poprzedniej
+
+W Aplikacji jest uwzględniona też możliwość wcześniejszej nadpłady kredytu, w przypadku ,gdy będziemy dokonać dodakowych
+nadpład kredytu, mamy do wyboru dwie opcje : 
+
+Opja redukująca czas trwania
+Nasz kredyt zostanię skórcony o poczczęgólną ilość miesięcy w zależność o wielkości dokonanej nadpłąty
+
+Opcja reduująca wyokość pozostałych rat
+W tym przydaku ,gdy dokonamy nadpłady czas trwania kredytu zostanie cały czas taki sam, ale wysokości
+pozostałych rat zostaną pomniejszone.
+
+Dane wejsciowe jakie wprowadzamy W klasie InputData są następujące: 
+1. Moment rozpoczecia kredytu 
+2. Kwota kredytu
+3. Wysokość oprocentowania wibor 
+4. Rodzaj rat w jakich kredyt jest spłanacy(malejace i rosnące) Czas trwania kredytu Oprocentowanie kredytu narzucone przez bank Możliwość dodakowych nadpłat kredytu w wybranch miesiach w tym przypadku jest do wyboru w kredycie czy chcemy aby nasz kredyt został szybciej spłacony czy chcemy aby nasze przyszłe raty były pomniejszone już o spłaconą kwotę
 
 Kalkulator oblicza nam sume całkowitych odsetek jaką zapłaciliśmy za kredyt Dodatkową prowizję jaką zapłaciliśmy z tytułu dokonywania wcześniejszych nadpłat, jeśli taka istnieje Sume strat jaką ponieśliśmy biorąc kredyt
 
