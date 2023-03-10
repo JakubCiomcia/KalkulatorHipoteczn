@@ -21,7 +21,7 @@ public class Main {
 
 
         InputData inputData = new InputData()
-                .withAmount(new BigDecimal("49800"))
+                .withAmount(new BigDecimal("89800"))
                 .withMonthsDuration(BigDecimal.valueOf(220))
                 .withRateType(RateType.CONSTANT)
                 .withOverpaymentReduceWay(Overpayment.REDUCE_RATE)
