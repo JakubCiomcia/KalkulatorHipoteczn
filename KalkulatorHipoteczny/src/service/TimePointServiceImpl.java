@@ -1,6 +1,7 @@
 package service;
 
 import model.InputData;
+import model.Rate;
 import model.TimePoint;
 
 import java.math.BigDecimal;
@@ -15,13 +16,18 @@ public class TimePointServiceImpl implements TimePointService {
     @Override
     public TimePoint calculate(BigDecimal rateNumber, InputData inputData) {
         LocalDate date = calculateDate(rateNumber, inputData);
-
         BigDecimal year = calculateYear(rateNumber);
         BigDecimal month = calculateMonth(rateNumber);
 
         return new TimePoint(date, year, month);
     }
 
+    public TimePoint calculate(BigDecimal rateNumber, Rate previousRate) {
+        LocalDate date = previousRate.getTimePoint().getDate().plus(1, ChronoUnit.MONTHS);
+        BigDecimal year = calculateYear(rateNumber);
+        BigDecimal month = calculateMonth(rateNumber);
+        return new TimePoint(date, month, year);
+    }
     private LocalDate calculateDate(BigDecimal rateNumber, InputData inputData) {
         return inputData.getRepaymentStartDate().plus(rateNumber.subtract(BigDecimal.ONE).intValue(), ChronoUnit.MONTHS);
     }

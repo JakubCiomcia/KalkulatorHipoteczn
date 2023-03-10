@@ -119,7 +119,7 @@ public class InputData {
         return this.wiborPercent.add(this.bankMarginPercent).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Map<Integer, BigDecimal> getOverPaymentSchema() {
+    public Map<Integer, BigDecimal> getOverpaymentSchema() {
         return this.overPaymentSchema;
     }
 

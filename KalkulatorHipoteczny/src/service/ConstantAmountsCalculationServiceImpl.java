@@ -13,35 +13,35 @@ public class ConstantAmountsCalculationServiceImpl implements ConstantAmountsCal
 
 
     @Override
-    public RateAmounts calculate(InputData inputData, Overpayment overpayment) {
+    public RateAmounts calculate(final InputData inputData, final Overpayment overpayment) {
         BigDecimal interestPercent = inputData.getInterestPercent();
-        BigDecimal q = AmountsCalculationService.calculateQ(interestPercent);
+        BigDecimal q = CalculationsUtils.calculateQ(interestPercent);
 
         BigDecimal residualAmount = inputData.getAmount();
         BigDecimal referenceAmount = inputData.getAmount();
         BigDecimal referenceDuration = inputData.getMonthsDuration();
 
 
-        BigDecimal interestAmount = CalculationsUtils.calcualtedInterestAmount(residualAmount, interestPercent);
+        BigDecimal interestAmount = CalculationsUtils.calculatedInterestAmount(residualAmount, interestPercent);
         BigDecimal rateAmount = calculateConstantRateAmount(
                 q, referenceAmount, referenceDuration, interestAmount, referenceAmount);
-        BigDecimal capitalAmount = calcualtedCapitalAmount(rateAmount, interestAmount, residualAmount);
+        BigDecimal capitalAmount = AmountsCalculationService.calculatedCapitalAmount(rateAmount, interestAmount, residualAmount);
 
         return new RateAmounts(rateAmount, interestAmount, capitalAmount, overpayment);
     }
 
     @Override
-    public RateAmounts calculate(InputData inputData, Overpayment overpayment, Rate previousRate) {
+    public RateAmounts calculate(final InputData inputData, final Overpayment overpayment, final Rate previousRate) {
         BigDecimal interestPercent = inputData.getInterestPercent();
-        BigDecimal q = AmountsCalculationService.calculateQ(interestPercent);
+        BigDecimal q = CalculationsUtils.calculateQ(interestPercent);
 
-        BigDecimal residualAmount = previousRate.getMortgageResidual().getAmount();
+        BigDecimal residualAmount = previousRate.getMortgageResidual().getResidualAmount();
         BigDecimal referenceAmount = previousRate.getMortgageReference().getReferenceAmount();
         BigDecimal referenceDuration = previousRate.getMortgageReference().getReferenceDuration();
 
-        BigDecimal interestAmount = CalculationsUtils.calcualtedInterestAmount(residualAmount, interestPercent);
+        BigDecimal interestAmount = CalculationsUtils.calculatedInterestAmount(residualAmount, interestPercent);
         BigDecimal rateAmount = calculateConstantRateAmount(q, referenceAmount, referenceDuration, interestAmount, residualAmount);
-        BigDecimal capitalAmount = calcualtedCapitalAmount(rateAmount, interestAmount, residualAmount);
+        BigDecimal capitalAmount = AmountsCalculationService.calculatedCapitalAmount(rateAmount, interestAmount, residualAmount);
 
         return new RateAmounts(rateAmount, interestAmount, capitalAmount, overpayment);
     }
@@ -68,19 +68,6 @@ public class ConstantAmountsCalculationServiceImpl implements ConstantAmountsCal
             return residualAmount.add(interestAmount);
         }
         return rateAmount;
-    }
-
-    private BigDecimal calcualtedCapitalAmount(
-            BigDecimal rateAmount,
-            BigDecimal interestAmount,
-            BigDecimal residualAmount
-    ) {
-        BigDecimal capitalAmount = rateAmount.subtract(interestAmount);
-
-        if (capitalAmount.compareTo(residualAmount) >= 0) {
-            return residualAmount;
-        }
-        return capitalAmount;
     }
 
 }

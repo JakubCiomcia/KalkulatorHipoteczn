@@ -4,6 +4,7 @@ import model.InputData;
 import model.MortgageResidual;
 import model.Rate;
 import model.RateAmounts;
+import service.utils.CalculationsUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,8 +24,8 @@ public class ResidualCalculationServiceImpl implements ResidualCalculationServic
 
     @Override
     public MortgageResidual calculate(RateAmounts rateAmounts, final InputData inputData, Rate previousRate) {
-        BigDecimal previousResidualAmount = previousRate.getMortgageResidual().getAmount();
-        BigDecimal previousResidualDuration = previousRate.getMortgageResidual().getDuration();
+        BigDecimal previousResidualAmount = previousRate.getMortgageResidual().getResidualAmount();
+        BigDecimal previousResidualDuration = previousRate.getMortgageResidual().getResidualDuration();
 
         if (BigDecimal.ZERO.equals(previousResidualAmount)) {
             return new MortgageResidual(BigDecimal.ZERO, BigDecimal.ZERO);
@@ -64,7 +65,7 @@ public class ResidualCalculationServiceImpl implements ResidualCalculationServic
 
     private BigDecimal calculateConstantResidualDuration(InputData inputData, BigDecimal residualAmount, RateAmounts rateAmounts) {
 
-        BigDecimal q = AmountsCalculationService.calculateQ(inputData.getInterestPercent());
+        BigDecimal q = CalculationsUtils.calculateQ(inputData.getInterestPercent());
 
         BigDecimal xNumerator = rateAmounts.getRateAmount();
 

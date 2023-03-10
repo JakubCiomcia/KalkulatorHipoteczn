@@ -3,40 +3,36 @@ package service;
 import model.InputData;
 import model.Overpayment;
 import java.math.BigDecimal;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 
 public class OverpaymentCalculationServiceImpl implements OverpaymentCalculationService {
-    public OverpaymentCalculationServiceImpl() {
-    }
 
-    public Overpayment calculate(BigDecimal rateNumber, InputData inputData) {
-        BigDecimal overpaymentAmount = (BigDecimal)this.calculateAmount(rateNumber, inputData.getOverPaymentSchema()).orElse(BigDecimal.ZERO);
-        BigDecimal overpaymentProvision = this.calculateProvision(rateNumber, overpaymentAmount, inputData);
+    @Override
+    public Overpayment calculate(final BigDecimal rateNumber, final InputData inputData) {
+        BigDecimal overpaymentAmount = calculateOverpaymentAmount(rateNumber, inputData.getOverpaymentSchema()).orElse(BigDecimal.ZERO);
+        BigDecimal overpaymentProvision = calculateOverpaymentProvision(rateNumber, overpaymentAmount, inputData);
         return new Overpayment(overpaymentAmount, overpaymentProvision);
     }
 
-    private Optional<BigDecimal> calculateAmount(BigDecimal rateNumber, Map<Integer, BigDecimal> overPaymentSchema) {
-        Iterator var3 = overPaymentSchema.entrySet().iterator();
-
-        Map.Entry entry;
-        do {
-            if (!var3.hasNext()) {
-                return Optional.empty();
+    private Optional<BigDecimal> calculateOverpaymentAmount(final BigDecimal rateNumber, Map<Integer, BigDecimal> overpaymentSchema) {
+        for (Map.Entry<Integer, BigDecimal> entry : overpaymentSchema.entrySet()) {
+            if (BigDecimal.valueOf(entry.getKey()).equals(rateNumber)) {
+                return Optional.of(entry.getValue());
             }
-
-            entry = (Map.Entry)var3.next();
-        } while(!rateNumber.equals(BigDecimal.valueOf((long)(Integer)entry.getKey())));
-
-        return Optional.of((BigDecimal)entry.getValue());
+        }
+        return Optional.empty();
     }
 
-    private BigDecimal calculateProvision(BigDecimal rateNumber, BigDecimal overpaymentAmount, InputData inputData) {
+    private BigDecimal calculateOverpaymentProvision(final BigDecimal rateNumber, final BigDecimal overpaymentAmount, final InputData inputData) {
         if (BigDecimal.ZERO.equals(overpaymentAmount)) {
             return BigDecimal.ZERO;
-        } else {
-            return rateNumber.compareTo(inputData.getOverpaymentProvisionMoths()) > 0 ? BigDecimal.ZERO : overpaymentAmount.multiply(inputData.getOverpaymentProvisionPercent());
         }
+
+        if (rateNumber.compareTo(inputData.getOverpaymentProvisionMoths()) > 0) {
+            return BigDecimal.ZERO;
+        }
+
+        return overpaymentAmount.multiply(inputData.getOverpaymentProvisionPercent());
     }
 }

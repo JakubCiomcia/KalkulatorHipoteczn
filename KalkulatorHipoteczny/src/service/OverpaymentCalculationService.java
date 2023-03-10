@@ -5,5 +5,5 @@ import model.Overpayment;
 import java.math.BigDecimal;
 
 public interface OverpaymentCalculationService {
-    Overpayment calculate(BigDecimal var1, InputData var2);
+    Overpayment calculate(final BigDecimal rateNumber, final InputData inputData);
 }

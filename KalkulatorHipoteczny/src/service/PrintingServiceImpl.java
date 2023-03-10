@@ -24,15 +24,15 @@ public class PrintingServiceImpl implements PrintingService {
         msg.append(OVERPAYMENT_START_MONTH);
         msg.append(inputData.getOverpaymentStartMonth());
         msg.append(NEW_LINE);
-        Optional.ofNullable(inputData.getOverPaymentSchema()).filter((schema) -> {
-            return schema.size() > 0;
-        }).ifPresent((schema) -> {
-            this.logOverpayment(msg, inputData.getOverPaymentSchema(), inputData.getOverpaymentReduceWay());
-        });
-        this.printMessage(msg);
+
+        Optional.of(inputData.getOverpaymentSchema())
+                .filter(schema -> schema.size() > 0)
+                .ifPresent(schema -> logOverpayment(msg, inputData.getOverpaymentSchema(), inputData.getOverpaymentReduceWay()));
+
+        printMessage(msg);
     }
 
-    private void logOverpayment(StringBuilder msg, Map<Integer, BigDecimal> schema, String reduceWay) {
+    private void logOverpayment(final StringBuilder msg, final Map<Integer, BigDecimal> schema, final String reduceWay) {
         switch (reduceWay) {
             case Overpayment.REDUCE_PERIOD:
                 msg.append(OVERPAYMENT_REDUCE_PERIOD);
@@ -65,11 +65,11 @@ public class PrintingServiceImpl implements PrintingService {
 
     public void printScheduleRates(List<Rate> rates, InputData inputData) {
         {
-            String format = "%4s %3s" +
+            String format = "%4s %2s" +
                     "%4s %4s" +
                     "%3s %2s" +
                     "%4s %2s" +
-                    "%4s %8s" +
+                    "%4s %9s" +
                     "%7s %8s" +
                     "%7s %10s" +
                     "%4s %8s" +
@@ -87,8 +87,8 @@ public class PrintingServiceImpl implements PrintingService {
                         INTEREST, rate.getRateAmounts().getInterestAmount(),
                         CAPITAL, rate.getRateAmounts().getCapitalAmount(),
                         OVERPAYMENT, rate.getRateAmounts().getOverpayment().getAmount(),
-                        LEFT_AMOUND, rate.getMortgageResidual().getAmount(),
-                        LEFT_MONTHS, rate.getMortgageResidual().getDuration()
+                        LEFT_AMOUND, rate.getMortgageResidual().getResidualAmount(),
+                        LEFT_MONTHS, rate.getMortgageResidual().getResidualDuration()
                 );
                 printMessage(message);
                 if (index % 12 == 0) {

@@ -21,10 +21,10 @@ public class Main {
 
 
         InputData inputData = new InputData()
-                .withAmount(new BigDecimal("498000"))
-                .withMonthsDuration(BigDecimal.valueOf(160))
-                .withRateType(RateType.DECREASING)
-                .withOverpaymentReduceWay(Overpayment.REDUCE_PERIOD)
+                .withAmount(new BigDecimal("49800"))
+                .withMonthsDuration(BigDecimal.valueOf(220))
+                .withRateType(RateType.CONSTANT)
+                .withOverpaymentReduceWay(Overpayment.REDUCE_RATE)
                 .withOverpaymentSchema(overpaymentSchema)
                 .withOverpaymentProvisionPercent(BigDecimal.valueOf(10));
 

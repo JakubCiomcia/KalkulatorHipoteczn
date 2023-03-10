@@ -60,7 +60,7 @@ public class RateCalculationServiceImpl implements RateCalculationService {
     }
 
     private boolean mortgageFinished(Rate nextRate) {
-        BigDecimal toCompare = nextRate.getMortgageResidual().getAmount().setScale(0, RoundingMode.HALF_UP);
+        BigDecimal toCompare = nextRate.getMortgageResidual().getResidualAmount().setScale(0, RoundingMode.HALF_UP);
         return BigDecimal.ZERO.equals(toCompare);
     }
 
